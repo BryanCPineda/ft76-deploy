@@ -1,17 +1,22 @@
 const { Pool } = require("pg")
-const { loadEnvFile } = require("node:process")
-loadEnvFile('.env')
+const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_MAX_CONNECT, DB_IDLETIMEOUT, DB_CONNECTIONTIMEOUT, DATABASE_URL,  } = require("./envs")
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  max: process.env.DB_MAX_CONNECT,
-  idleTimeoutMillis: process.env.DB_IDLETIMEOUT,
-  connectionTimeoutMillis: process.env.DB_CONNECTIONTIMEOUT
-})
+const dbConnectionLocal = {
+  host:                    DB_HOST,
+  port:                    DB_PORT,
+  database:                DB_NAME,
+  user:                    DB_USER,
+  password:                DB_PASSWORD,
+  max:                     DB_MAX_CONNECT,
+  idleTimeoutMillis:       DB_IDLETIMEOUT,
+  connectionTimeoutMillis: DB_CONNECTIONTIMEOUT
+}
+
+const dbConnectionProduction = {
+  connectionString: DATABASE_URL
+}
+
+const pool = new Pool(  DATABASE_URL ? dbConnectionProduction  : dbConnectionLocal   )
 
 module.exports = {
   pool
