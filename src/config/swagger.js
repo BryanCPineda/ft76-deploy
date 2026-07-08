@@ -6,7 +6,7 @@ const swaggerSpec = {
     description: "Documentación de la API para listar, buscar y crear usuarios."
   },
   servers: [
-    { url: "http://localhost:3000" }
+    { url: process.env.NODE_ENV = 'production' ? "https://ft76-deploy-production.up.railway.app" : "http://localhost:3000" }
   ],
   tags: [
     {
